@@ -1,0 +1,83 @@
+
+# -- Ejercicio  4.10 -- #
+INSERT INTO LIBRO_VENTAS_2018 (RUC, NOMBRE_APELLIDO, NUMERO_FACTURA, FECHA_VENTA, TIPO_VENTA, GRAVADO_10, IVA_10, GRAVADO_5, IVA_5, EXENTO, MONTO_TOTAL )
+
+SELECT 
+	-- Se muestra el RUC o la Cedula
+	CASE  C.RUC
+		WHEN  NULL THEN C.CEDULA
+        	ELSE C.RUC
+	END RUC,
+	
+	-- Nombre y apellido del cliente
+    	(C.NOMBRE ||  '' || C.APELLIDO) NOMBRE_APELLIDO,
+
+	-- Se concatena 001-[LOCALIZACION CLIENTE]-[NUMERO FACTURA VENTA]
+	('001-' || C.ID_LOCALIDAD || '-' || VTMP.NUMERO_FACTURA) NUMERO_FACTURA ,
+
+	-- Fecha de la Venta
+	VTMP.FECHA_VENTA,
+
+	-- Tipo de Venta
+	VTMP.TIPO_VENTA,
+
+	VTMP.GRAVADO_10,
+	(VTMP.GRAVADO_10 * 0.10) IVA_10,
+	VTMP.GRAVADO_5,
+	(VTMP.GRAVADO_5 * 0.05) IVA_5,
+	VTMP.EXENTO,
+
+	-- Monto TOTAL
+	( VTMP.GRAVADO_10 + (VTMP.GRAVADO_10 * 0.10) + 
+	  VTMP.GRAVADO_5 + (VTMP.GRAVADO_5 * 0.05) + VTMP.EXENTO) MONTO_TOTAL
+
+FROM B_PERSONAS C
+INNER JOIN 
+	( SELECT 
+		V.ID_VENTA, -- id de la venta	
+		V.ID_CLIENTE, -- id para relacionar con b_personas
+		V.FECHA FECHA_VENTA,
+		DV.ID_ARTICULO, -- Id del articulo
+		DV.PRECIO,  -- Precio del Articulo
+		DV.CANTIDAD,  -- Cantidad Vendida
+		V.NUMERO_FACTURA,  -- Numero de la factura
+		
+		CASE  V.TIPO_VENTA
+			WHEN  'CO' THEN 1
+	        	WHEN  'CR' THEN 2
+		END TIPO_VENTA,	
+
+		
+		-- Retorna Gravada 10
+		DECODE(A.PORC_IVA, 
+		       10,
+		      ((DV.PRECIO - (DV.PRECIO)/11) * DV.CANTIDAD ),
+			0) GRAVADO_10,
+
+		-- Retorna Gravada 5
+		DECODE(A.PORC_IVA, 
+		       5,
+		      ((DV.PRECIO - (DV.PRECIO)/21) * DV.CANTIDAD ),
+			0) GRAVADO_5,
+
+		
+		-- Retorna las Excentas
+		DECODE(A.PORC_IVA, 
+		       0,
+		      (DV.PRECIO  * DV.CANTIDAD ),
+			0) EXENTO
+		
+	FROM B_DETALLE_VENTAS DV
+	INNER JOIN B_ARTICULO A
+	ON A.ID = DV.ID_ARTICULO
+	INNER JOIN B_VENTAS V
+	ON V.ID = DV.ID_VENTA
+
+	WHERE EXTRACT(YEAR FROM V.FECHA) = 2018
+	AND EXTRACT(MONTH FROM V.FECHA) = 07 ) VTMP
+ON VTMP.ID_CLIENTE = C.ID
+
+
+
+ 
+
