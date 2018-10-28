@@ -31,5 +31,5 @@ BEGIN
 
 EXCEPTION
 	WHEN OTHER THEN
-		DBMS_OUTPUT.PUT_LINE('Error en la inserción');
+		DBMS_OUTPUT.PUT_LINE('Se produjo un error inesperado en la insercion');
 END;
