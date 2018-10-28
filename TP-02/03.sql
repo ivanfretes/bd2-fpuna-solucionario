@@ -1,7 +1,7 @@
 /**
 	Ejercicio 3
 
-	Cree el procedimiento P_POBLAR_IATA que leerá la tabla plana “IATA”, e insertará los países y ciudades. Tenga en cuenta que el nombre y código del país se repite por cada ciudad.
+	Cree el procedimiento P_POBLAR_IATA que leerá la tabla plana “IATA”, e insertará los países y ciudades. Tenga en cuenta que el nombre y código del país se repite por cada ciudad. 
 **/
 
 CREATE OR REPLACE PROCEDURE P_POBLAR_IATA

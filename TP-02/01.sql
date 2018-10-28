@@ -1,7 +1,7 @@
 /*
 	Ejercicio 1
 	
-	Cree en la base de datos el procedimiento P_BORRAR_OBJETOS, que borrará (con SQL dinámico), todos los objetos de su esquema que no correspondan al esquema del curso (En el esquema del curso todas las tablas empiezan con ‘B_’
+	Cree en la base de datos el procedimiento P_BORRAR_OBJETOS, que borrará (con SQL dinámico), todos los objetos de su esquema que no correspondan al esquema del curso (En el esquema del curso todas las tablas empiezan con ‘B_’ 
 */
 
 
