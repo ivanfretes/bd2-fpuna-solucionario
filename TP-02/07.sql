@@ -24,7 +24,10 @@ DECLARE
 	INNER JOIN REALIZACION_VUELO RV
 	ON PV.ID_VUELO = RV.ID_VUELO
 	INNER JOIN RESERVA_TRAMO RT
-	ON RT.ID_ESCALA = PV.ID_ESCALA;
+	ON RT.ID_ESCALA = PV.ID_ESCALA
+	WHERE ID_VUELO = :new.ID_VUELO
+	AND ID_ESCALA = :new.ID_ESCALA
+	AND NRO_RESERVA = :new.NRO_RESERVA;
 
 	reg_verificar  CUR_CONTROL_PASAJEROS%ROWTYPE;
 BEGIN
@@ -32,8 +35,12 @@ BEGIN
 	OPEN CUR_CONTROL_PASAJEROS;
 	LOOP 
 		FETCH CUR_CONTROL_PASAJEROS INTO reg_verificar;
+		IF CUR_CONTROL_PASAJEROS%NOTFOUND THEN
+			DBMS_OUTPUT.PUT_LINE('-- NOTFOUND --');
+			EXIT;
+		END IF;
 
-		IF TRUNC(reg_verificar.HORA_REAL) = TRUNC(reg_verificar.FECHA_SALIDA) THEN
+		IF TRUNC(reg_verificar.HORA_REAL) != TRUNC(reg_verificar.FECHA_SALIDA) THEN
 			RAISE_APPLICATION_ERROR (-20006, 'Sólo se puede agregar un pasajero si la fecha de salida programada coincide con la fecha de partida real de ese vuelo y escala.');
 		END IF;
 
@@ -49,7 +56,7 @@ BEGIN
 
 		IF reg_verificar.NRO_ASIENTO = :new.NRO_ASIENTO AND
 			reg_verificar.CLASE = :new.CLASE THEN
-			RAISE_APPLICATION_ERROR (-20009, 'Por cada realización de vuelo puede haber un solo comandante.');
+			RAISE_APPLICATION_ERROR (-20009, 'No se puede permitir la asignación de  más de un pasajero al mismo asiento y clase.');
 		END IF;	
 	END LOOP;
 	CLOSE CUR_CONTROL_PASAJEROS;
