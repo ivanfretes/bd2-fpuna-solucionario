@@ -12,42 +12,33 @@
 CREATE OR REPLACE TRIGGER T_VERIFICAR_TRIPULACION 
 BEFORE INSERT ON tripulacion
 DECLARE
-	V_FECHA_EXPIRACION_PAT	DATE;
-	V_COMANDANTE			VARCHAR(1); 	-- 1 Si el comandante esta activo
-	V_ESTADO_VUELO			VARCHAR(1);	
+
+	CURSOR CUR_VERIFICAR_TRIPULACION IS
+		SELECT T.COMANDANTE, P.FECHA_EXPIR_PATENTE, RV.ESTADO
+		FROM TRIPULACION T 
+		INNER JOIN  REALIZACION_VUELO RV
+		ON T.ID_VUELO = RV.ID_VUELO
+		INNER JOIN PERSONAL P
+		ON P.NRO_PERSONAL = T.NRO_PERSONAL
+		WHERE T.ID_VUELO = :new.ID_VUELO;
+
+	V_DIF_FECHA_TMP		NUMBER;
+
 BEGIN
+	FOR reg_verificar IN CUR_VERIFICAR_TRIPULACION LOOP
 
-	-- Retorna el personal a insertar en la tripulacion
-	SELECT FECHA_EXPIR_PATENTE 
-	INTO V_FECHA_EXPIRACION_PAT
-	FROM personal p
-	WHERE p.NRO_PERSONAL = :new.NRO_PERSONAL;
+		V_DIF_FECHA_TMP := TRUNC(SYSDATE) - TRUNC(reg_verificar.FECHA_EXPIR_PATENTE);
+		IF V_DIF_FECHA_TMP >= 0 THEN
+			RAISE_APPLICATION_ERROR (-20003, 'Este personal tiene expirada su patente, no es posible su asignacion a la tripulacion');
+		END IF;
 
-	-- Expiracion de patente del personal
-	IF V_FECHA_EXPIRACION_PAT THEN
-		RAISE_APPLICATION_ERROR (-20003, 'Este personal tiene expirada su patente, no es posible su asignacion a la tripulacion');
-	END IF;
+		IF reg_verificar.COMANDANTE = 'S' THEN
+			RAISE_APPLICATION_ERROR (-20004, 'Por cada realización de vuelo puede haber un solo comandante.');
+		END IF;	
 
+		IF reg_verificar.ESTADO != 'C' THEN
+			RAISE_APPLICATION_ERROR (-20005, 'Sólo puede agregarse un miembro a la tripulación de un vuelo confirmado. ');
+		END IF;	
 
-	-- Retorna el personal a insertar en la tripulacion
-	SELECT COUNT(COMANDANTE), P.FECHA_EXPIR_PATENTE
-	INTO V_COMANDANTE_ACTIVO
-	FROM TRIPULACION T 
-	INNER JOIN  REALIZACION_VUELO RV
-	ON T.ID_VUELO = RV.ID_VUELO
-	INNER JOIN PERSONAL P
-	ON P.NRO_PERSONAL = T.NRO_PERSONAL
-	WHERE T.ID_VUELO = :new.ID_VUELO
-	GROUP BY P.NRO_PERSONAL;
-
-	AND COMANDANTE = 'S';
-	-- Un comandante por 
-	IF V_COMANDANTE_ACTIVO > 1 THEN
-		RAISE_APPLICATION_ERROR (-20004, 'Por cada realización de vuelo puede haber un solo comandante.');
-	END IF;
-
-	
-
-	-- 
-
+	END LOOP;
 END;
