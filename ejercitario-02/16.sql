@@ -1,6 +1,10 @@
+/*
+	Ejercicio 16
 
+	El área de CREDITOS Y COBRANZAS solicita un informe de las ventas a crédito efectuadas en el año 2018 y cuyas cuotas tienen atraso en el pago. A las cuotas que se encuentran en dicha situación se le aplica una tasa de interés del 0.5% por cada día de atraso.
 
-# --  Ejercicio 16 -- #
+	Se considera que una cuota está en mora cuando ya pasó la fecha de vencimiento y no existe aún pago alguno. Se pide mostrar los siguientes datos y ordenar de forma descendente por días de atraso.
+*/
 SELECT 
 	(E.NOMBRE || ' ' || E.APELLIDO) VENDEDOR, 
 	
