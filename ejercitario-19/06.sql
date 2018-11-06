@@ -1,0 +1,17 @@
+/*
+	Ejercicio 6
+
+	Cree la tabla relacional PROVEEDORES que contenga las siguientes columnas
+	
+		- ID_PROVEEDOR
+		- NOMBRE_PROVEEDOR
+		- ARTICULOS_PROVEIDOS
+	
+	Este último campo será del tipo TAB_ARTICULOS, y deberá guardarse como una tabla anidada
+*/
+CREATE OR REPLACE TABLE PROVEEDORES2(
+	ID_PROVEEDOR			NUMBER(8) NOT NULL,
+	NOMBRE_PROVEEDOR		VARCHAR(40),
+	ARTICULOS_PROVEIDOS 	TAB_ARTICULOS,
+)
+NESTED TABLE ARTICULOS_PROVEIDOS STORE AS ARTICULOS_X_PROVEEDOR;

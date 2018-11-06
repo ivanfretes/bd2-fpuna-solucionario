@@ -1,0 +1,13 @@
+/*
+	Ejercicio 5
+	
+	Cree en la base de datos el tipo de dato TAB_ARTICULOS como una tabla anidada de ARTICULOS que contenga:
+	- ID_ARTICULO
+	- NOMBRE_ARTICULO
+*/
+CREATE TYPE T_ARTICULOS IS OBJECT(
+	ID_ARTICULO		NUMBER(8),
+	NOMBRE_ARTICULO	VARCHAR2(40)
+);
+
+CREATE TYPE TAB_ARTICULOS AS TABLE OF T_ARTICULOS;

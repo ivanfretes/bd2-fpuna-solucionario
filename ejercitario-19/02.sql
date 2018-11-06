@@ -8,8 +8,8 @@
 */
 
 
--- Para evitar ambigüedad con una tabla existente, la llamamos T_VENDEDORES
-CREATE TABLE T_VENDEDORES (
+-- Para evitar ambigüedad con una tabla existente, la llamamos VENDEDORES2
+CREATE TABLE VENDEDORES2 (
 	CEDUL_VENDEDOR		NUMBER(11),
 	NOMBRE_VENDEDOR		VARCHAR2(80),
 	CLIENTES_VENDEDOR	CLIENTES;
