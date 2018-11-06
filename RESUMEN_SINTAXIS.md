@@ -7,14 +7,13 @@
 	* Valores que se declaran dentro de bloques anonimos y/o se pasan como parametro en  funciones, procedimientos, solo tienen el scope(alcance) de su bloque.
 
 
-
--- VISUALIZAR SALIDA EN CONSOLA --
+### VISUALIZAR SALIDA EN CONSOLA ###
 	SET SERVER OUTPUT ON
 
--- IMPRIMIR EN CONSOLA --
+### IMPRIMIR EN CONSOLA ###
 	DBMS_OUTPUT.PUT_LINE( MSG );
 
--- DECLARACION DE VARIABLES --
+### DECLARACION DE VARIABLES ###
 	-- Opcional inicializar con un valor por defecto | mediante DEFAULT
 	-- Inicialice las constantes y variables designadas como NOT NULL
 	variable [ CONSTANT ]	TIPO_DE_DATO 	[NOT NULL] :=  value | DEFAULT expr;
@@ -27,7 +26,7 @@
 	variable_registro			table_name.%ROWTYPE
 
 
--- TIPO DE DATOS BASICOS, VALORES ENTRE PARENTESIS
+### TIPO DE DATOS BASICOS, VALORES ENTRE PARENTESIS ###
 	- BINARY_INTEGER 
 	- NUMBER (10)
 	- CHAR (30) 
@@ -37,7 +36,7 @@
 	- BOOLEAN
 
 
--- TIPO DE BLOQUES --
+### TIPO DE BLOQUES ###
 	-- PL SQL Anonimo
 		DECLARE -- opcional
 			var_tmp varchar
@@ -78,7 +77,7 @@
 
 
 
-### CONSTRUCCION DE PROGRAMAS ###
+## CONSTRUCCION DE PROGRAMAS ##
 	- Procedimiento Almacenado, Funcion o Bloque Anonimo -> para declarar
 	- Triggers de aplicacion, dentro del BEGIN
 	- Triggers de la base de datos en EXCEPTION
@@ -87,7 +86,7 @@
 
 
 
--- OPERADORES EN PL/SQL --
+### OPERADORES EN PL/SQL ###
 	- Incremento
 		v_count 	:= v_count + 1;
 
@@ -96,7 +95,7 @@
 		v_valido 	:= (emp_id is NOT NULL); -- valida una columna
 
 
--- CONTROL DE FLUJO --
+### CONTROL DE FLUJO ###
 	-- SELECCION --
 		-- SI/IF
 		IF condition THEN
@@ -153,17 +152,17 @@
 		END LOOP;
 
 
--- RECUPERAR DATOS / SELECT .. INTO --
-	-- La clausula INTO, indican a las variables que tomaran los datos  en tiempo de ejecucion
-	-- Recupera una sola fila
-	-- Donde nombre de registro es un dato del tipo registro
-	-- Declarar el select en el BEGIN, solo sirve para asignar a variables
-	-- Columna y variables con nombres distintos
-	-- Nombre de tablas distintos a nombre de columnas
-	-- Solo retornar los datos de una tabla, no relacionar
-	SELECT campo1, campo2, campo3 INTO var1,var2,var3 | nombre_de_registro
-	FROM tabla
-	WHERE condicion; -- &v_dept_id // insertar en tiempo de ejecucion
+	-- RECUPERAR DATOS / SELECT .. INTO --
+		-- La clausula INTO, indican a las variables que tomaran los datos  en tiempo de ejecucion
+		-- Recupera una sola fila
+		-- Donde nombre de registro es un dato del tipo registro
+		-- Declarar el select en el BEGIN, solo sirve para asignar a variables
+		-- Columna y variables con nombres distintos
+		-- Nombre de tablas distintos a nombre de columnas
+		-- Solo retornar los datos de una tabla, no relacionar
+		SELECT campo1, campo2, campo3 INTO var1,var2,var3 | nombre_de_registro
+		FROM tabla
+		WHERE condicion; -- &v_dept_id // insertar en tiempo de ejecucion
 
 
 
@@ -177,7 +176,7 @@
 
 
 
--- ** CURSORES ** --
+## CURSORES ##
 	-- Generados por una sentencia SELECT
 
 	-- TIPO DE CURSORES
@@ -268,7 +267,7 @@
 			COMMIT;
 
 
-#PROCEDIMIENTOS Y FUNCIONES#
+## PROCEDIMIENTOS Y FUNCIONES ##
 	-- REFERENCIAS --
 		- Para procedimientos y funciones locales no es necesario utilizar la palabra CREATE OR REPLACE, solo PROCEDURE | FUNCTION
 		- La funcion se define entre el [ IS y el BEGIN ]
@@ -358,7 +357,7 @@
 		- FROM DBA_DEPENDENCIES
 
 
-#	-- EXCEPCIONES#
+## EXCEPCIONES ##
 	-- REFERENCIAS
 
 		-- TIPO DE ERRORES
@@ -389,7 +388,7 @@
 
 
 
-#	-- TIPO DE DATOS COMPUESTOS SQL#
+## TIPO DE DATOS COMPUESTOS SQL - Registros y Tablas Indexadas ## 
 	- Registros (RECORDS) -- CONJUNTO, parecido al %ROWTYPE pero no igual
 	- Colecciones (TABLAS INDEXADAS) -- no es igual a una tabla de DB
 		- CONTIENE UN INDICE DEL TIPO BINARY_INTEGER
@@ -447,7 +446,7 @@
 			- DELETE(n,m) -- elimina elementos del rango
 
 
-#PAQUETES#		
+## PAQUETES ##		
 
 	-- REFERENCIAS --
 		- La especificacion, solo contiene los objetos que se desean como publicos
@@ -563,7 +562,7 @@
 			START ../pack_b.plb
 
 
-#TRIGGERS#
+## TRIGGERS ##
 	- Procedimientos almacanados que se ejecutan (disparan) cuando sucede algun evento DML (INSERT, UPDATE, DELETE)
 	- Asociados a una tabla específica y son implicitamente ejecutados, cuando se modifica algo en ella
 	- No se deben definir triggers para operaciones controladas por integridad referencia (CASCADE) o constraint CHECK
@@ -620,7 +619,7 @@
 	-- Es ideal definir las funciones, siempre en el DECLARE o antes del BEGIN
 		
 	
-#TRIGGERS DEL SISTEMA#
+## TRIGGERS DEL SISTEMA ##
 	-- Disparadores que se ejecutan cuando ocurre un evento en el sistema
 	-- Se requiere privilegio de SYSDBA, para crear triggers del sistema
 	-- CREATE ANY TRIGGER: Permite crear disparadores en cualquier esquema
@@ -634,7 +633,7 @@
 	END nombre_trigger;
 	
 
-#SQL DINAMICO#
+## SQL DINAMICO ##
 	-- REFERNCIAS --
 		- Permite crear sentencias SQL, cuya estructura puede cambiar en el momento de ejecucion
 		- Se construye y almacena como string
@@ -733,7 +732,7 @@
 
 
 
-#-- SQL DINAMICO UTILIZANDO DBMS_SQ#
+## SQL DINAMICO, UTILIZANDO DBMS_SQL ##
 	-- Pasos a seguir;
 		- OPEN_CURSOR / Abrir el cursor
 		- Se analiza la cadena / DBMS_SQL.PARSE
