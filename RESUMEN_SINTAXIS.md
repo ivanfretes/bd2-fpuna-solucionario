@@ -1,5 +1,5 @@
 
-#INTRODUCCION A PL/SQL#
+## INTRODUCCION A PL/SQL ##
 
 ### REFERENCIAS ###
 	* Valores entre [], son opcionales
