@@ -6,6 +6,9 @@
 	Liste el id, la descripción de la localidad y la cantidad de clientes. Asegúrese que se listen también las localidades que NO tienen clientes.
 */
 
-SELECT * FROM 
-B_PERSONAS
-ES_CLIENTE = 'S'
+SELECT L.ID, L.NOMBRE, COUNT(P.ID) CANT_CLIENTES
+FROM B_PERSONAS P
+RIGHT JOIN B_LOCALIDAD L
+ON L.ID = P.ID_LOCALIDAD
+WHERE P.ES_CLIENTE = 'S'
+GROUP BY P.ID_LOCALIDAD;
