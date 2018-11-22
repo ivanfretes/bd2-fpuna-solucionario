@@ -1,0 +1,22 @@
+TEMA 5:
+
+Altere la tabla Empleado para agregar la columna CONTRATO del tipo BLOB.
+Verifique que tenga creado el directorio MIS_BLOBS, sino debe crearlo.
+Desarrolle el procedimiento P_ADJUNTAR_CONTRATO que debe recorrer la tabla empleado y por cada registro actualizar el valor del campo CONTRATO con su correspondiente archivo
+que se encuentra en el directorio MIS_BLOBS.
+La nomenclatura de los archivos es: CONT_CEDULAEMPLEADO.PDF .Ej: CONT_123568.PDF
+
+
+TEMA 6:
+
+Cree el procedimiento P_EMPLEADOS_DINAMICOS que recibirá los siguientes parámetros:
+-Criterio de búsqueda. C: (Categoría salarial) - A:(Area)
+-Valor de búqueda.
+
+El procedimiento deberá armar un sql dinámico para recuperar los siguientes datos de los empleados: cedula,nombre y apellido (concatenados),fecha_ingreso,horario_entrada,horario_salida,
+barrio y nombre de la localidad. El filtro a aplicar  a la consulta depende del valor del parámetro 'criterio':
+
+-Si el criterio recibido es:
+-- C, debe mostrar todos los empleados que pertenecen actualmente a dicha categoria salarial.
+-- A, debe mostrar todos los empleados que pertenecen actualmente a dicha area.
+-- Un valor distinto a los anteroires, debe levantar la siguiente excepción: 'Criterio no válido'.
