@@ -1,3 +1,7 @@
+## DDL ## 
+
+
+
 
 ## INTRODUCCION A PL/SQL ##
 
@@ -745,3 +749,9 @@
 
 
 
+## OBJETOS ##
+
+
+## TABLAS ANADIDAS Y VARRAYS ##
+
+## ARCHIVOS , BLOBS Y OBJETOS GRANDES ##
